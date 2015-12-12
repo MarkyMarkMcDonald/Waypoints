@@ -1,29 +1,27 @@
-class Waypoints(val type: String = "", val points: List<Point> = listOf()) {
-
-    val route: Route
-    init {
-        route = Route(type, points)
-    }
+class Waypoints(val route: Route?) {
 
     fun directions(startingLatitude: Double, startingLongitude: Double, endingLatitude: Double, endingLongitude: Double): Directions {
         val start = Point(startingLatitude, startingLongitude)
         val destination = Point(endingLatitude, endingLongitude)
 
-        val defaultDirections = Directions(Route("WALKING", listOf(start, destination)))
-
-        if (route.isNotEmpty() && publicTransitIsFaster(destination, start)) {
+        if (route != null && route.isNotEmpty() && publicTransitIsFaster(destination, start)) {
             return Directions(route)
         } else {
+            val defaultDirections = Directions(Route("WALKING", listOf(start, destination)))
             return defaultDirections
         }
     }
 
-    private fun publicTransitIsFaster(destination: Point, start: Point) = points.last() distanceTo destination < start distanceTo destination
+    private fun publicTransitIsFaster(destination: Point, start: Point) = route != null && route.last() distanceTo destination < start distanceTo destination
 }
 
 class Route(val type: String, val points: List<Point>) {
     fun isNotEmpty(): Boolean {
         return points.isNotEmpty()
+    }
+
+    fun last(): Point {
+        return points.last()
     }
 }
 
