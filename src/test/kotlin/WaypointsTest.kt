@@ -5,7 +5,7 @@ class WaypointsTest {
 
     @Test
     fun testGivesWalkingDirections() {
-        val waypoints = Waypoints(route = null);
+        val waypoints = Waypoints(routes = listOf());
 
         val directions = waypoints.directions(50.0, 90.0, 80.0, 100.0);
 
@@ -15,7 +15,7 @@ class WaypointsTest {
     @Test
     fun testGivesTrainDirections() {
         val trainRoute = listOf(Point(51.0, 91.0), Point(79.0, 99.0))
-        val waypoints = Waypoints(route = Route("1 LINE", trainRoute))
+        val waypoints = Waypoints(routes = listOf(Route("1 LINE", trainRoute)))
 
         val directions = waypoints.directions(50.0, 90.0, 80.0, 100.0);
 
@@ -25,7 +25,7 @@ class WaypointsTest {
     @Test
     fun testGivesWalkingDirections_WhenTrainIsOutOfTheWay() {
         val trainRoute = listOf(Point(10.0, 10.0), Point(20.0, 20.0))
-        val waypoints = Waypoints(route = Route("1 LINE", trainRoute))
+        val waypoints = Waypoints(routes = listOf(Route("1 LINE", trainRoute)))
 
         val directions = waypoints.directions(50.0, 90.0, 80.0, 100.0);
 
@@ -35,7 +35,7 @@ class WaypointsTest {
     @Test
     fun testGivesBusDirections() {
         val busRoute = listOf(Point(51.0, 91.0), Point(79.0, 99.0))
-        val waypoints = Waypoints(route = Route("ROUTE B54", busRoute))
+        val waypoints = Waypoints(routes = listOf(Route("ROUTE B54", busRoute)))
 
         val directions = waypoints.directions(50.0, 90.0, 80.0, 100.0);
 
