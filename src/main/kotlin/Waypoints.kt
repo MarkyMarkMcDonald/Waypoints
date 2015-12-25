@@ -3,8 +3,11 @@ class Waypoints(val routes: List<Route>) {
     fun directions(startingLatitude: Double, startingLongitude: Double, endingLatitude: Double, endingLongitude: Double): Directions {
         val start = Point(startingLatitude, startingLongitude)
         val destination = Point(endingLatitude, endingLongitude)
+        return directions(start, destination)
+    }
 
-        val fastTransitRoutes = routes.filter {route -> route.isNotEmpty() && fasterThanWalking(route, destination, start)}
+    private fun directions(start: Point, destination: Point): Directions  {
+        val fastTransitRoutes = fastTransitRoutes(destination, start)
         if (fastTransitRoutes.isNotEmpty()) {
             return Directions(fastTransitRoutes.first())
         } else {
@@ -12,6 +15,8 @@ class Waypoints(val routes: List<Route>) {
             return defaultDirections
         }
     }
+
+    private fun fastTransitRoutes(destination: Point, start: Point) = routes.filter { route -> route.isNotEmpty() && fasterThanWalking(route, destination, start) }
 
     private fun fasterThanWalking(route: Route, destination: Point, start: Point) =
             route.last() distanceTo destination < start distanceTo destination
